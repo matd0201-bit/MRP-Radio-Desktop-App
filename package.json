@@ -1,0 +1,35 @@
+{
+  "name": "mishap-rp-radio",
+  "productName": "MISHAP RP RADIO",
+  "version": "4.0.0",
+  "description": "MISHAP RP RADIO - application de bureau portable (PTT global)",
+  "main": "main.js",
+  "author": "MISHAP",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win portable --x64 --publish never"
+  },
+  "dependencies": {
+    "uiohook-napi": "^1.5.4"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "fr.mishap.rpradio",
+    "productName": "MISHAP RP RADIO",
+    "npmRebuild": false,
+    "files": ["main.js", "index.html", "package.json"],
+    "asarUnpack": ["node_modules/uiohook-napi/**"],
+    "win": {
+      "icon": "icon.ico",
+      "target": [{ "target": "portable", "arch": ["x64"] }]
+    },
+    "portable": {
+      "artifactName": "MISHAP-RP-RADIO-${version}-portable.exe"
+    }
+  }
+}
