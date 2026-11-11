@@ -1,6 +1,6 @@
 {
   "name": "mishap-rp-radio-desktop",
-  "version": "4.0.6",
+  "version": "4.0.0",
   "private": true,
   "description": "Version bureau portable de MISHAP RP RADIO",
   "main": "main.js",
