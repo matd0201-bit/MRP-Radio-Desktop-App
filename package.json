@@ -1,35 +1,58 @@
 {
-  "name": "mishap-rp-radio",
-  "productName": "MISHAP RP RADIO",
-  "version": "4.0.0",
-  "description": "MISHAP RP RADIO - application de bureau portable (PTT global)",
-  "main": "main.js",
-  "author": "MISHAP",
-  "license": "UNLICENSED",
+  "name": "mishap-rp-radio-desktop",
+  "version": "4.0.5",
   "private": true,
+  "description": "Version bureau portable de MISHAP RP RADIO",
+  "main": "main.js",
+  "author": "MISHAP RP RADIO",
+  "license": "UNLICENSED",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --win portable --x64 --publish never"
+    "dist:win": "electron-builder --win portable --x64"
   },
   "dependencies": {
-    "uiohook-napi": "^1.5.4"
+    "uiohook-napi": "1.5.5"
   },
   "devDependencies": {
-    "electron": "^33.2.0",
-    "electron-builder": "^25.1.8"
+    "electron": "45.3.0",
+    "electron-builder": "26.18.1"
   },
   "build": {
-    "appId": "fr.mishap.rpradio",
+    "appId": "fr.mishaprp.radio",
     "productName": "MISHAP RP RADIO",
+    "asar": true,
     "npmRebuild": false,
-    "files": ["main.js", "index.html", "package.json"],
-    "asarUnpack": ["node_modules/uiohook-napi/**"],
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "index.html",
+      "main.js",
+      "preload.js",
+      "assets/mishap-radio.png",
+      "package.json",
+      "node_modules/uiohook-napi/**/*",
+      "!node_modules/uiohook-napi/**/*.md",
+      "!node_modules/uiohook-napi/**/*.map"
+    ],
+    "asarUnpack": [
+      "node_modules/uiohook-napi/**/*.node"
+    ],
     "win": {
-      "icon": "icon.ico",
-      "target": [{ "target": "portable", "arch": ["x64"] }]
+      "icon": "assets/mishap-radio.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
     },
     "portable": {
-      "artifactName": "MISHAP-RP-RADIO-${version}-portable.exe"
+      "artifactName": "MISHAP-RP-RADIO-${version}-Portable.${ext}",
+      "unpackDirName": "MISHAP-RP-RADIO"
     }
   }
 }
