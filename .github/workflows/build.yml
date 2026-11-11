@@ -1,31 +1,50 @@
-name: Build portable exe
+name: Build MISHAP RP RADIO Portable
 
 on:
-  workflow_dispatch:
   push:
-    tags: ['v*']
+    branches:
+      - main
+      - master
+    tags:
+      - 'v*'
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  build:
+  build-windows-portable:
+    name: Windows x64 · EXE portable
     runs-on: windows-latest
+    timeout-minutes: 45
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v7
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v7
         with:
-          node-version: 20
-      - name: Install
+          node-version: 22
+
+      - name: Installer les dépendances
         run: npm install --no-audit --no-fund
-      - name: Build portable exe
-        run: npm run dist
-      - uses: actions/upload-artifact@v4
+
+      - name: Compiler le EXE portable
+        run: npm run dist:win
+
+      - name: Publier le fichier EXE comme artefact GitHub
+        uses: actions/upload-artifact@v6
         with:
-          name: MISHAP-RP-RADIO-portable
-          path: dist/*-portable.exe
-      - name: Release (sur tag v*)
+          name: MISHAP-RP-RADIO-Windows-Portable
+          path: dist/*.exe
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+
+      - name: Ajouter le EXE à une GitHub Release (uniquement sur tag v*)
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*-portable.exe
+          files: dist/*.exe
+          generate_release_notes: true
